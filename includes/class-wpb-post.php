@@ -44,7 +44,8 @@ class WPB_Post extends WPB_Plugin{
      */
     public function post_published( $new_status, $old_status, $post ) {
         echo "POST STATUS CHANGED";
-        // exit;
+        exit;
+
         if ( $old_status != 'publish'  &&  $new_status == 'publish' ) {
             if( $post->post_type == $this->post_type ) {
                 $this->push( $post );
@@ -62,6 +63,13 @@ class WPB_Post extends WPB_Plugin{
     public function push( $post ) {
         echo "The ID of the new post is: $post->ID";
         print_r($post);
+
+
+        if( !defined('WPB_ARRAY_OPTIONS_KEY') ) {
+            return;
+        }
+        $options = get_option( WPB_ARRAY_OPTIONS_KEY );
+        print_r($options);
 
         // exit;
 
