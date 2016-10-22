@@ -1,0 +1,3 @@
+# [WordPress Pushbots](http://www.sej-ko.dk/)
+
+Read this very carefully, I write this only once...
