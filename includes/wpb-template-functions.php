@@ -9,11 +9,10 @@ defined( 'ABSPATH' ) or die( 'Busted!' );
  *
  * @param array $args
  */
-
-function wpb_settings_section_payload_cb($args)
+function wpb_settings_section_description_cb($content, $args)
 {
     ?>
-    <p id="<?= esc_attr($args['id']); ?>"><?= esc_html__('Configure the payload to be sent to the apps.', WPB_TXTDMN); ?></p>
+    <p id="<?= esc_attr($args['id']); ?>"><?= $content; ?></p>
     <?php
 }
 /**

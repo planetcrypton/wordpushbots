@@ -95,59 +95,55 @@ class WPB_Settings extends WPB_Plugin{
     }
 
     /**
-     * WPB settings.
+     * WPB settings page.
      */
     public function settings_init() {
-        // register a new setting for "wporg" page
+        // register a new setting for "wpb" page
         register_setting('wpb', WPB_ARRAY_OPTIONS_KEY);
 
-        // register a new section in the "wporg" page
+        // register section "Account" in the "wpb" page
         add_settings_section(
-            'wpb_section_payload',
-            __('Payload', WPB_TXTDMN),
-            'wpb_settings_section_payload_cb',
+            'wpb_section_account',
+            __('Account', WPB_TXTDMN),
+            [$this, 'section_account_cb'],
             'wpb'
         );
-
-        // register fields in the "wpb_section_payload" section, inside the "wpb" page
         add_settings_field(
-            'wpb_field_payload_post_item_key',
-            __('Post Item Key', WPB_TXTDMN),
+            'wpb_field_account_app_id',
+            __('App ID', WPB_TXTDMN),
             'wpb_settings_textinput_field_cb',
             'wpb',
-            'wpb_section_payload',
+            'wpb_section_account',
             [
-                'label_for'         => 'wpb_field_payload_post_item_key',// use to populate the id inside the callback
-                'class'             => 'wpb_row',
-                // 'wpb_custom_data' => 'custom',
+                'label_for'         => 'wpb_field_account_app_id',
             ]
         );
         add_settings_field(
-            'wpb_field_payload_post_item_value',
-            __('Post Item Value', WPB_TXTDMN),
-            'wpb_settings_select_field_cb',
+            'wpb_field_account_app_secret',
+            __('App secret', WPB_TXTDMN),
+            'wpb_settings_textinput_field_cb',
             'wpb',
-            'wpb_section_payload',
+            'wpb_section_account',
             [
-                'label_for'         => 'wpb_field_payload_post_item_value',
-                'class'             => 'wpb_row',
-                'wpb_options'       => [
-                    ['id', _('ID', WPB_TXTDMN)],
-                    ['slug', _('Slug', WPB_TXTDMN)],
-                ],
-                'wpb_description' => __('Populate the Payload with an array containing IDs or Slugs'),
+                'label_for'         => 'wpb_field_account_app_secret',
             ]
         );
-        // add_settings_field(
-        //     'wpb_field_payload_categories_key',
-        //     __('Categories Key', WPB_TXTDMN),
-        //     'wpb_settings_textinput_field_cb',
-        //     'wpb',
-        //     'wpb_section_payload',
-        //     [
-        //         'label_for'         => 'wpb_field_payload_categories_key_key',
-        //         'class'             => 'wpb_row',
-        //     ]
-        // );
+    }
+
+    /**
+     * Description account section
+     * @param array $args
+     */
+    public function section_account_cb( $args ) {
+        $content = esc_html__('Enter your PushBots account-data.', WPB_TXTDMN);
+        wpb_settings_section_description_cb($content, $args);
+    }
+    /**
+     * Description account section
+     * @param array $args
+     */
+    public function section_payload_cb( $args ) {
+        $content = esc_html__('Configure the payload to be sent to the apps.', WPB_TXTDMN);
+        wpb_settings_section_description_cb($content, $args);
     }
 }
