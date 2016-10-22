@@ -15,13 +15,15 @@ defined( 'ABSPATH' ) or die( 'Busted!' );
 
 if ( ! class_exists( 'WordPushBots' ) ) :
 
+    require_once('includes/class-wpb-plugin.php');
+
 /**
  * Main WordPushBots Class.
  *
  * @class WordPushBots
  * @version 0.0.1
  */
-final class WordPushBots {
+final class WordPushBots extends WPB_Plugin{
 
     /**
      * WordPushBots version.
@@ -95,60 +97,34 @@ final class WordPushBots {
     /**
      * Include files.
      */
-    private function includes() {
+    public function includes() {
         include_once( 'includes/wpb-template-functions.php' );
         include_once( 'includes/class-wpb-settings.php' );
         include_once( 'includes/class-wpb-post.php' );
 
         $this->settings = new WPB_Settings();
+        $this->settings->includes();
+
         $this->post = new WPB_Post();
+        $this->post->includes();
 
         if ( $this->is_request( 'admin' ) ) {
             include_once( 'includes/admin/class-wpb-admin.php' );
 
             $this->admin = new WPB_Admin();
+            $this->admin->includes();
         }
     }
 
     /**
      * Hook into actions and filters.
      */
-    private function init_hooks() {
+    public function init_hooks() {
         $this->settings->init_hooks();
+        $this->post->init_hooks();
 
         if( isset($this->admin) ) {
             $this->admin->init_hooks();
-        }
-    }
-
-    /**
-     * Define constant if not already set.
-     *
-     * @param  string $name
-     * @param  string|bool $value
-     */
-    private function define( $name, $value ) {
-        if ( ! defined( $name ) ) {
-            define( $name, $value );
-        }
-    }
-
-    /**
-     * What type of request is this?
-     *
-     * @param  string $type admin, ajax, cron or frontend.
-     * @return bool
-     */
-    private function is_request( $type ) {
-        switch ( $type ) {
-            case 'admin' :
-                return is_admin();
-            case 'ajax' :
-                return defined( 'DOING_AJAX' );
-            case 'cron' :
-                return defined( 'DOING_CRON' );
-            case 'frontend' :
-                return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
         }
     }
 }

@@ -2,14 +2,43 @@
 
 defined( 'ABSPATH' ) or die( 'Busted!' );
 
-class WPB_Settings{
+
+class WPB_Settings extends WPB_Plugin{
+
+    /**
+     * Single option key.
+     * Only useful when using one single setting
+     *
+     * @var string
+     */
+    public $single_option_key = 'wpb_option';
+    /**
+     * Array option key.
+     * When using one global option key for all settings,
+     * all saved into this array
+     *
+     * @var string
+     */
+    public $array_option_key = 'wpb_options';
 
 
     /**
      * WPB_Settings Constructor.
      */
-    public function __construct() {}
-
+    public function __construct() {
+        $this->define_constants();
+    }
+    /**
+     * Define WPB Constants.
+     */
+    private function define_constants() {
+        $this->define( 'WPB_SINGLE_OPTION_KEY', $this->single_option_key );
+        $this->define( 'WPB_ARRAY_OPTIONS_KEY', $this->array_option_key );
+    }
+    /**
+     * Include files.
+     */
+    public function includes() {}
     /**
      * Hook into actions and filters.
      */
@@ -70,7 +99,7 @@ class WPB_Settings{
      */
     public function settings_init() {
         // register a new setting for "wporg" page
-        register_setting('wpb', 'wpb_options');
+        register_setting('wpb', WPB_ARRAY_OPTIONS_KEY);
 
         // register a new section in the "wporg" page
         add_settings_section(
