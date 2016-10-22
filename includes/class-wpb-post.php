@@ -44,7 +44,7 @@ class WPB_Post extends WPB_Plugin{
      */
     public function post_published( $new_status, $old_status, $post ) {
         echo "POST STATUS CHANGED";
-        exit;
+        // exit;
 
         if ( $old_status != 'publish'  &&  $new_status == 'publish' ) {
             if( $post->post_type == $this->post_type ) {
