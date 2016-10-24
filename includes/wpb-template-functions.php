@@ -80,3 +80,31 @@ function wpb_settings_select_field_cb($args)
         wpb_settings_field_description($args['wpb_description']);
     }
 }
+/**
+ * Outputs settings checkbox field
+ *
+ * @param array $args
+ */
+function wpb_settings_checkbox_field_cb($args)
+{
+    // get the value of the setting we've registered with register_setting()
+    $options = get_option( WPB_ARRAY_OPTIONS_KEY );
+
+    // output the field
+    ?>
+    <input type="checkbox"
+        id="<?= esc_attr($args['wpb_id']); ?>"
+        <?php if(isset($args['wpb_custom_data'])): ?>
+        data-custom="<?= esc_attr($args['wpb_custom_data']); ?>"
+        <?php endif; ?>
+        name="<?= WPB_ARRAY_OPTIONS_KEY; ?>[<?= esc_attr($args['label_for']); ?>]"
+        value="1"
+        <?= isset($options[$args['label_for']]) ? (selected(1, $options[$args['label_for']], false)) : (''); ?>
+    >
+    <label for="<?= $args['wpb_id']; ?>"><?= $args['wpb_label']; ?></label>
+    <?php
+
+    if( isset($args['wpb_description']) ) {
+        wpb_settings_field_description($args['wpb_description']);
+    }
+}

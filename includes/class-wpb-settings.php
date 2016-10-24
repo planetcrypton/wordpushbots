@@ -128,10 +128,120 @@ class WPB_Settings extends WPB_Plugin{
                 'label_for'         => 'wpb_field_account_app_secret',
             ]
         );
+
+        // register section "Notification" in the "wpb" page
+        add_settings_section(
+            'wpb_section_notification',
+            __('Notification', WPB_TXTDMN),
+            [$this, 'section_notification_cb'],
+            'wpb'
+        );
+        add_settings_field(
+            'wpb_field_notification_bagde',
+            __('Badge (iOS only)', WPB_TXTDMN),
+            'wpb_settings_checkbox_field_cb',
+            'wpb',
+            'wpb_section_notification',
+            [
+                'wpb_id'    => 'wpb_field_notification_bagde',
+                'wpb_label' => __('Increase app-bagde'),
+            ]
+        );
+
+        // register section "Target" in the "wpb" page
+        add_settings_section(
+            'wpb_section_target',
+            __('Target', WPB_TXTDMN),
+            [$this, 'section_target_cb'],
+            'wpb'
+        );
+
+        // register section "Payload" in the "wpb" page
+        add_settings_section(
+            'wpb_section_payload',
+            __('Payload', WPB_TXTDMN),
+            [$this, 'section_payload_cb'],
+            'wpb'
+        );
+        add_settings_field(
+            'wpb_field_payload_post_item_key',
+            __('Post Item Key', WPB_TXTDMN),
+            'wpb_settings_textinput_field_cb',
+            'wpb',
+            'wpb_section_payload',
+            [
+                'label_for'         => 'wpb_field_payload_post_item_key',
+            ]
+        );
+        add_settings_field(
+            'wpb_field_payload_post_item_value',
+            __('Post Item Value', WPB_TXTDMN),
+            'wpb_settings_select_field_cb',
+            'wpb',
+            'wpb_section_payload',
+            [
+                'label_for'         => 'wpb_field_payload_post_item_value',
+                'wpb_options'       => [
+                    ['id', _('ID', WPB_TXTDMN)],
+                    ['slug', _('Slug', WPB_TXTDMN)],
+                ],
+                'wpb_description' => __('Populate the Payload with ID or Slug'),
+            ]
+        );
+        add_settings_field(
+            'wpb_field_payload_categories_key',
+            __('Categories Key', WPB_TXTDMN),
+            'wpb_settings_textinput_field_cb',
+            'wpb',
+            'wpb_section_payload',
+            [
+                'label_for'         => 'wpb_field_payload_categories_key',
+            ]
+        );
+        add_settings_field(
+            'wpb_field_payload_categories_value',
+            __('Categories Value', WPB_TXTDMN),
+            'wpb_settings_select_field_cb',
+            'wpb',
+            'wpb_section_payload',
+            [
+                'label_for'         => 'wpb_field_payload_categories_value',
+                'wpb_options'       => [
+                    ['id', _('ID', WPB_TXTDMN)],
+                    ['slug', _('Slug', WPB_TXTDMN)],
+                ],
+                'wpb_description' => __('Populate the Payload with an array containing IDs or Slugs'),
+            ]
+        );
+        add_settings_field(
+            'wpb_field_payload_tags_key',
+            __('Categories Key', WPB_TXTDMN),
+            'wpb_settings_textinput_field_cb',
+            'wpb',
+            'wpb_section_payload',
+            [
+                'label_for'         => 'wpb_field_payload_tags_key',
+            ]
+        );
+        add_settings_field(
+            'wpb_field_payload_tags_value',
+            __('Categories Value', WPB_TXTDMN),
+            'wpb_settings_select_field_cb',
+            'wpb',
+            'wpb_section_payload',
+            [
+                'label_for'         => 'wpb_field_payload_tags_value',
+                'wpb_options'       => [
+                    ['id', _('ID', WPB_TXTDMN)],
+                    ['slug', _('Slug', WPB_TXTDMN)],
+                ],
+                'wpb_description' => __('Populate the Payload with an array containing IDs or Slugs'),
+            ]
+        );
     }
 
     /**
-     * Description account section
+     * Description Account section
      * @param array $args
      */
     public function section_account_cb( $args ) {
@@ -139,11 +249,27 @@ class WPB_Settings extends WPB_Plugin{
         wpb_settings_section_description_cb($content, $args);
     }
     /**
-     * Description account section
+     * Description Notification section
+     * @param array $args
+     */
+    public function section_notification_cb( $args ) {
+        $content = esc_html__('What kind of notification must be received.', WPB_TXTDMN);
+        wpb_settings_section_description_cb($content, $args);
+    }
+    /**
+     * Description Target section
+     * @param array $args
+     */
+    public function section_target_cb( $args ) {
+        $content = esc_html__('Who must receive this push notification.', WPB_TXTDMN);
+        wpb_settings_section_description_cb($content, $args);
+    }
+    /**
+     * Description Payload section
      * @param array $args
      */
     public function section_payload_cb( $args ) {
-        $content = esc_html__('Configure the payload to be sent to the apps.', WPB_TXTDMN);
+        $content = esc_html__('Configure the payload to be sent to the apps. Leave blank if not added to payload.', WPB_TXTDMN);
         wpb_settings_section_description_cb($content, $args);
     }
 }
