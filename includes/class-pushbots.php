@@ -42,8 +42,7 @@ class PushBots
 	 */
 	private function sendRequest($method, $host, $path, $data) {
 		$jsonData = json_encode($data);
-		echo $jsonData;
-        $ci = curl_init();
+		$ci = curl_init();
 
 		//PushBots Headers
 		$headers = array(

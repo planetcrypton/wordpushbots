@@ -64,8 +64,8 @@ class WPB_Post extends WPB_Plugin{
             return;
         }
         $options = get_option( WPB_ARRAY_OPTIONS_KEY );
-        print_r($options);
 
+        // print_r($options);
         // exit;
 
         // $author = $post->post_author; /* Post author ID. */
@@ -81,6 +81,11 @@ class WPB_Post extends WPB_Plugin{
         // $headers[] = '';
         // wp_mail( $to, $subject, $message, $headers );
 
+        if( !isset($options['wpb_field_account_app_id']) OR empty($options['wpb_field_account_app_id'] )
+        OR  !isset($options['wpb_field_account_app_secret']) OR empty($options['wpb_field_account_app_secret']) ) {
+            return;
+        }
+
 
         // Send to Pushbots
         $app_id = $options['wpb_field_account_app_id'];
@@ -94,19 +99,17 @@ class WPB_Post extends WPB_Plugin{
         $pb->Alert( $alert_message );
 
         // badge
-        if( $options['wpb_field_notification_bagde'] === 1 ){
-            $pb->Badge("+1");
-        }
+        // if( isset($options['wpb_field_notification_bagde']) && $options['wpb_field_notification_bagde']=== 1 ){
+        //     $pb->Badge("+1");
+        // }
         // payload
         $payload = [];
         if( !empty($options['wpb_field_payload_post_item_key']) ) {
-            echo "Do add post_item";
             $post_item_key = $options['wpb_field_payload_post_item_key'];
             $post_item_val = $options['wpb_field_payload_post_item_value'];
             $payload[ $post_item_key ] = $post_item_val == 'id' ? $post->ID : $post->post_name;
         }
         if( !empty($options['wpb_field_payload_categories_key']) ) {
-            echo "Do add categories";
             $categories_key = $options['wpb_field_payload_categories_key'];
             $categories_val = $options['wpb_field_payload_categories_value'];
             if( $categories_val == 'id' ) {
@@ -117,7 +120,6 @@ class WPB_Post extends WPB_Plugin{
             }
         }
         if( !empty($options['wpb_field_payload_tags_key']) ) {
-            echo "Do add tags";
             $tags_key = $options['wpb_field_payload_tags_key'];
             $tags_val = $options['wpb_field_payload_tags_value'];
             if( $tags_val == 'id' ) {

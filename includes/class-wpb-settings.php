@@ -136,17 +136,17 @@ class WPB_Settings extends WPB_Plugin{
             [$this, 'section_notification_cb'],
             'wpb'
         );
-        add_settings_field(
-            'wpb_field_notification_bagde',
-            __('Badge (iOS only)', WPB_TXTDMN),
-            'wpb_settings_checkbox_field_cb',
-            'wpb',
-            'wpb_section_notification',
-            [
-                'wpb_id'    => 'wpb_field_notification_bagde',
-                'wpb_label' => __('Increase app-bagde'),
-            ]
-        );
+        // add_settings_field(
+        //     'wpb_field_notification_bagde',
+        //     __('Badge (iOS only)', WPB_TXTDMN),
+        //     'wpb_settings_checkbox_field_cb',
+        //     'wpb',
+        //     'wpb_section_notification',
+        //     [
+        //         'wpb_id'    => 'wpb_field_notification_bagde',
+        //         'wpb_label' => __('Increase app-bagde'),
+        //     ]
+        // );
 
         // register section "Target" in the "wpb" page
         add_settings_section(
@@ -215,7 +215,7 @@ class WPB_Settings extends WPB_Plugin{
         );
         add_settings_field(
             'wpb_field_payload_tags_key',
-            __('Categories Key', WPB_TXTDMN),
+            __('Tags Key', WPB_TXTDMN),
             'wpb_settings_textinput_field_cb',
             'wpb',
             'wpb_section_payload',
@@ -225,7 +225,7 @@ class WPB_Settings extends WPB_Plugin{
         );
         add_settings_field(
             'wpb_field_payload_tags_value',
-            __('Categories Value', WPB_TXTDMN),
+            __('Tags Value', WPB_TXTDMN),
             'wpb_settings_select_field_cb',
             'wpb',
             'wpb_section_payload',
