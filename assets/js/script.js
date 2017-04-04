@@ -38,21 +38,21 @@
         $(tabEl).addClass('nav-tab-active');
     }
 
-    window.addEventListener('load', function(){
-        // add tab's hash to form-action
-        // so the tab opens when the page reloads
-        $('#settings-form').on('submit', function(evt){
-            var formEl = $(this);
-            formEl.attr('action', location.href);
-            return true;
-        });
+    // window.addEventListener('load', function(){
+    //     // add tab's hash to form-action
+    //     // so the tab opens when the page reloads
+    //     $('#settings-form').on('submit', function(evt){
+    //         var formEl = $(this);
+    //         formEl.attr('action', location.href);
+    //         return true;
+    //     });
 
-        // open 'requested' tab
-        activateTab();
-    }, false);
+    //     // open 'requested' tab
+    //     activateTab();
+    // }, false);
 
-    window.addEventListener('hashchange', function(evt){
-        activateTab();
-    }, false);
+    // window.addEventListener('hashchange', function(evt){
+    //     activateTab();
+    // }, false);
 
 })( jQuery );

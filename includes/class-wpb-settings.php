@@ -58,7 +58,7 @@ class WPB_Settings extends WPB_Plugin{
     public function assets( $hook ) {
         if( $hook === 'settings_page_wordpushbots' ) {
             wp_enqueue_style( 'wpb_admin_css', plugin_dir_url( WPB_PLUGIN_BASENAME ) . '/assets/css/style.css' );
-            wp_enqueue_script( 'wpb_admin_js', plugin_dir_url( WPB_PLUGIN_BASENAME ) . '/assets/js/script.js' );
+            #wp_enqueue_script( 'wpb_admin_js', plugin_dir_url( WPB_PLUGIN_BASENAME ) . '/assets/js/script.js' );
         }
     }
 
@@ -87,35 +87,39 @@ class WPB_Settings extends WPB_Plugin{
         if (!current_user_can('manage_options')) {
             return;
         }
+        $avail_tabs = ['account', 'notification', 'target', 'payload'];
+        $tabs_data = [
+            'account' => ['title'=>__('Account', WPB_TXTDMN)],
+            'notification' => ['title'=>__('Notification', WPB_TXTDMN)],
+            'target' => ['title'=>__('Target', WPB_TXTDMN)],
+            'payload' => ['title'=>__('Payload', WPB_TXTDMN)],
+        ];
+        if( in_array($_GET['tab'], $avail_tabs) ) {
+            $tab = $_GET['tab'];
+        }else{
+            $tab = $avail_tabs[0];
+        }
         ?>
         <div class="wrap">
             <h1><?= esc_html(get_admin_page_title()); ?></h1>
             <form id="settings-form" action="options.php" method="post">
-                <?php
-                // output security fields for the registered setting "wpb_options"
-                settings_fields('wpb');
-                // output setting sections and their fields
-                // (sections are registered for "wpb", each field is registered to a specific section)
-                ?>
                 <h2 class="nav-tab-wrapper">
-                    <a class="nav-tab" href="#tab-account">Account</a>
-                    <a class="nav-tab" href="#tab-notification">Notification</a>
-                    <a class="nav-tab" href="#tab-target">Target</a>
-                    <a class="nav-tab" href="#tab-payload">Payload</a>
+                <?php foreach ($tabs_data as $key => $tab_data):
+                    $title = $tab_data['title'];
+                    $activeClass = $tab===$key ? 'nav-tab-active' : '';
+                ?>
+                    <a class="nav-tab <?= $activeClass ?>" href="?page=wordpushbots&tab=<?= $key; ?>">
+                        <?= $title; ?>
+                    </a>
+                <?php endforeach; ?>
                 </h2>
                 <section>
-                    <?php do_settings_sections('wpb_account'); ?>
-                </section>
-                <section>
-                    <?php do_settings_sections('wpb_notification'); ?>
-                </section>
-                <section>
-                    <?php do_settings_sections('wpb_target'); ?>
-                </section>
-                <section>
-                    <?php do_settings_sections('wpb_payload'); ?>
+                    <?php do_settings_sections('wpb_' . $tab); ?>
                 </section>
                 <?php
+                // output security fields for the registered setting "wpb_options"
+                settings_fields('wpb_' . $tab);
+
                 // output save settings button
                 submit_button('Save Settings');
                 ?>
@@ -128,16 +132,15 @@ class WPB_Settings extends WPB_Plugin{
      * WPB settings page.
      */
     public function settings_init() {
-        // register a new setting for "wpb" page
-        register_setting('wpb', WPB_ARRAY_OPTIONS_KEY);
-
         // register section "Account" in the "wpb" page
+        register_setting('wpb_account', 'wpb_account');
         add_settings_section(
             'wpb_section_account',
             __('Account', WPB_TXTDMN),
             [$this, 'section_account_cb'],
             'wpb_account'
         );
+
         add_settings_field(
             'wpb_field_account_app_id',
             __('App ID', WPB_TXTDMN),
@@ -146,20 +149,26 @@ class WPB_Settings extends WPB_Plugin{
             'wpb_section_account',
             [
                 'label_for'         => 'wpb_field_account_app_id',
+                'page'              => 'wpb_account',
             ]
         );
+
         add_settings_field(
             'wpb_field_account_app_secret',
             __('App secret', WPB_TXTDMN),
             'wpb_settings_textinput_field_cb',
-            'wpb_account',
+            'wpb_account',#'wordpushbots',
             'wpb_section_account',
             [
                 'label_for'         => 'wpb_field_account_app_secret',
+                'page'              => 'wpb_account',
             ]
         );
 
+
+
         // register section "Notification" in the "wpb" page
+        register_setting('wpb_notification', 'wpb_notification');
         add_settings_section(
             'wpb_section_notification',
             __('Notification', WPB_TXTDMN),
@@ -174,6 +183,7 @@ class WPB_Settings extends WPB_Plugin{
             'wpb_section_notification',
             [
                 'label_for'         => 'wpb_field_notification_post_alert_content',
+                'page'              => 'wpb_notification',
                 'wpb_options'       => [
                     ['post-title', _('Post title', WPB_TXTDMN)],
                     ['post-content', _('Post content (140 chars)', WPB_TXTDMN)],
@@ -190,6 +200,7 @@ class WPB_Settings extends WPB_Plugin{
             'wpb_section_notification',
             [
                 'label_for'         => 'wpb_field_notification_post_custom_alert',
+                'page'              => 'wpb_notification',
                 'rows'              => 4,
                 'wpb_description'   => __('Available variables: $author, $title', WPB_TXTDMN),
             ]
@@ -207,6 +218,7 @@ class WPB_Settings extends WPB_Plugin{
         // );
 
         // register section "Target" in the "wpb" page
+        register_setting('wpb_target', 'wpb_target');
         add_settings_section(
             'wpb_section_target',
             __('Target', WPB_TXTDMN),
@@ -221,6 +233,7 @@ class WPB_Settings extends WPB_Plugin{
             'wpb_section_target',
             [
                 'label_for'         => 'wpb_field_target_with_alias',
+                'page'              => 'wpb_target',
             ]
         );
         add_settings_field(
@@ -231,6 +244,7 @@ class WPB_Settings extends WPB_Plugin{
             'wpb_section_target',
             [
                 'label_for'         => 'wpb_field_target_taggedwith_categories',
+                'page'              => 'wpb_target',
             ]
         );
         add_settings_field(
@@ -241,6 +255,7 @@ class WPB_Settings extends WPB_Plugin{
             'wpb_section_target',
             [
                 'label_for'         => 'wpb_field_target_taggedwith_tags',
+                'page'              => 'wpb_target',
             ]
         );
         add_settings_field(
@@ -251,11 +266,13 @@ class WPB_Settings extends WPB_Plugin{
             'wpb_section_target',
             [
                 'label_for'         => 'wpb_field_target_taggedwith_input',
+                'page'              => 'wpb_target',
                 'wpb_description'   => __('Comma separated', WPB_TXTDMN),
             ]
         );
 
         // register section "Payload" in the "wpb" page
+        register_setting('wpb_payload', 'wpb_payload');
         add_settings_section(
             'wpb_section_payload',
             __('Payload', WPB_TXTDMN),
@@ -270,6 +287,7 @@ class WPB_Settings extends WPB_Plugin{
             'wpb_section_payload',
             [
                 'label_for'         => 'wpb_field_payload_post_item_key',
+                'page'              => 'wpb_payload',
             ]
         );
         add_settings_field(
@@ -280,6 +298,7 @@ class WPB_Settings extends WPB_Plugin{
             'wpb_section_payload',
             [
                 'label_for'         => 'wpb_field_payload_post_item_value',
+                'page'              => 'wpb_payload',
                 'wpb_options'       => [
                     ['id', _('ID', WPB_TXTDMN)],
                     ['slug', _('Slug', WPB_TXTDMN)],
@@ -295,6 +314,7 @@ class WPB_Settings extends WPB_Plugin{
             'wpb_section_payload',
             [
                 'label_for'         => 'wpb_field_payload_categories_key',
+                'page'              => 'wpb_payload',
             ]
         );
         add_settings_field(
@@ -305,6 +325,7 @@ class WPB_Settings extends WPB_Plugin{
             'wpb_section_payload',
             [
                 'label_for'         => 'wpb_field_payload_categories_value',
+                'page'              => 'wpb_payload',
                 'wpb_options'       => [
                     ['id', _('ID', WPB_TXTDMN)],
                     ['slug', _('Slug', WPB_TXTDMN)],
@@ -320,6 +341,7 @@ class WPB_Settings extends WPB_Plugin{
             'wpb_section_payload',
             [
                 'label_for'         => 'wpb_field_payload_tags_key',
+                'page'              => 'wpb_payload',
             ]
         );
         add_settings_field(
@@ -330,6 +352,7 @@ class WPB_Settings extends WPB_Plugin{
             'wpb_section_payload',
             [
                 'label_for'         => 'wpb_field_payload_tags_value',
+                'page'              => 'wpb_payload',
                 'wpb_options'       => [
                     ['id', _('ID', WPB_TXTDMN)],
                     ['slug', _('Slug', WPB_TXTDMN)],
