@@ -2,7 +2,7 @@
 /*
 Plugin Name: WordPushBots
 Description: Making Pushbots send push-notifications to apps when you're publishing posts
-Version:     0.0.1
+Version:     1.0.0-beta.0
 Author:      sejKo
 Author URI:  http://sej-ko.dk
 License:     GPL2
@@ -30,7 +30,7 @@ final class WordPushBots extends WPB_Plugin{
      *
      * @var string
      */
-    public $version = '0.0.1';
+    public $version = '1.0.0-beta.0';
 
     /**
      * Text-domain.

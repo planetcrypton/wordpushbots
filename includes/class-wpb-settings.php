@@ -58,7 +58,6 @@ class WPB_Settings extends WPB_Plugin{
     public function assets( $hook ) {
         if( $hook === 'settings_page_wordpushbots' ) {
             wp_enqueue_style( 'wpb_admin_css', plugin_dir_url( WPB_PLUGIN_BASENAME ) . '/assets/css/style.css' );
-            #wp_enqueue_script( 'wpb_admin_js', plugin_dir_url( WPB_PLUGIN_BASENAME ) . '/assets/js/script.js' );
         }
     }
 
