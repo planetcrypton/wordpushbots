@@ -243,7 +243,7 @@ class WPB_Settings extends WPB_Plugin{
             'wpb_target',
             'wpb_section_target',
             [
-                'label_for'         => 'wpb_field_target_taggedwith_categories',
+                'label_for'         => 'wpb_field_target_taggedwith_post_categories',
                 'page'              => 'wpb_target',
             ]
         );
@@ -254,7 +254,7 @@ class WPB_Settings extends WPB_Plugin{
             'wpb_target',
             'wpb_section_target',
             [
-                'label_for'         => 'wpb_field_target_taggedwith_tags',
+                'label_for'         => 'wpb_field_target_taggedwith_post_tags',
                 'page'              => 'wpb_target',
             ]
         );
