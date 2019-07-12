@@ -184,9 +184,9 @@ class WPB_Settings extends WPB_Plugin{
                 'label_for'         => 'wpb_field_notification_post_alert_content',
                 'page'              => 'wpb_notification',
                 'wpb_options'       => [
-                    ['post-title', _('Post title', WPB_TXTDMN)],
-                    ['post-content', _('Post content (140 chars)', WPB_TXTDMN)],
-                    ['custom-content', _('Custom', WPB_TXTDMN)],
+                    ['post-title', __('Post title', WPB_TXTDMN)],
+                    ['post-content', __('Post content (140 chars)', WPB_TXTDMN)],
+                    ['custom-content', __('Custom', WPB_TXTDMN)],
                 ],
                 'wpb_description'   => __('For custom use field below', WPB_TXTDMN),
             ]
@@ -299,8 +299,8 @@ class WPB_Settings extends WPB_Plugin{
                 'label_for'         => 'wpb_field_payload_post_item_value',
                 'page'              => 'wpb_payload',
                 'wpb_options'       => [
-                    ['id', _('ID', WPB_TXTDMN)],
-                    ['slug', _('Slug', WPB_TXTDMN)],
+                    ['id', __('ID', WPB_TXTDMN)],
+                    ['slug', __('Slug', WPB_TXTDMN)],
                 ],
                 'wpb_description'   => __('Populate the Payload with ID or Slug', WPB_TXTDMN),
             ]
@@ -326,8 +326,8 @@ class WPB_Settings extends WPB_Plugin{
                 'label_for'         => 'wpb_field_payload_categories_value',
                 'page'              => 'wpb_payload',
                 'wpb_options'       => [
-                    ['id', _('ID', WPB_TXTDMN)],
-                    ['slug', _('Slug', WPB_TXTDMN)],
+                    ['id', __('ID', WPB_TXTDMN)],
+                    ['slug', __('Slug', WPB_TXTDMN)],
                 ],
                 'wpb_description'   => __('Populate the Payload with an array containing IDs or Slugs', WPB_TXTDMN),
             ]
@@ -353,8 +353,8 @@ class WPB_Settings extends WPB_Plugin{
                 'label_for'         => 'wpb_field_payload_tags_value',
                 'page'              => 'wpb_payload',
                 'wpb_options'       => [
-                    ['id', _('ID', WPB_TXTDMN)],
-                    ['slug', _('Slug', WPB_TXTDMN)],
+                    ['id', __('ID', WPB_TXTDMN)],
+                    ['slug', __('Slug', WPB_TXTDMN)],
                 ],
                 'wpb_description'   => __('Populate the Payload with an array containing IDs or Slugs', WPB_TXTDMN),
             ]
